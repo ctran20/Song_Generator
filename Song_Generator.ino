@@ -4,57 +4,46 @@
 #include "pitches.h"
 
 // notes in the melody:
-int melody[] = {
-  NOTE_C5, NOTE_D5, NOTE_E5, NOTE_F5, NOTE_G5, NOTE_A5, NOTE_B5, NOTE_C6};
-int duration = 150;
+int major[] = {
+  NOTE_G4, NOTE_C5, NOTE_D5, NOTE_F5,
+  NOTE_G5, NOTE_A5, NOTE_C6, NOTE_D6};
 
-int ranNum;
+int minor[] = {
+  NOTE_GS4, NOTE_C5, NOTE_D5, NOTE_F5,
+  NOTE_G5, NOTE_GS5, NOTE_C6, NOTE_D6};
+
+int duration;
+int randNote;
+int randDur;
+int songFlow = 0;
  
 void setup() {
   randomSeed(analogRead(0));
 }
  
 void loop() {
+  randNote = random(8);
+  randDur = random(8);
+  songFlow += randDur;
 
-  ranNum = random(6);
+  if(songFlow > 350){
+    songFlow = 0;
+  }
+  
+  if(randDur < 2 || songFlow > 150){
+    duration = 180;
+  }
+  else if(randDur == 2){
+    duration = 720;
+  }
+  else{
+    duration = 360;
+  }
+  
+  tone(8, minor[randNote], duration == 180 ? 180 : 360);
+  delay(duration);
+}
 
-  if(ranNum == 0)
-  {
-    tone(8, melody[0], duration);
-  }
-  else if(ranNum == 1)
-  {
-    tone(8, melody[1], duration);
-  }
-  else if(ranNum == 2)
-  {
-    tone(8, melody[3], duration);
-  }
-  else if(ranNum == 3)
-  {
-    tone(8, melody[4], duration);
-  }
-  else if(ranNum == 4)
-  {
-    tone(8, melody[5], duration);
-  }
-  else
-  {
-    tone(8, melody[7], duration);
-  }
-
-  ranNum = random(4);
-
-  if(ranNum == 0)
-  {
-    delay(150);
-  }
-  else if(ranNum == 1)
-  {
-    delay(600);
-  }
-  else
-  {
-    delay(300);
-  }
+void minorSwitch(){
+  
 }
