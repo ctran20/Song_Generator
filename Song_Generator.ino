@@ -18,6 +18,11 @@ int duration;
 int randNote;
 int randDur;
 int songFlow = 0;
+int bars;
+
+int verseNote[8];
+int verse[8];
+int verseEnd;
 
 char key = 'a';
  
@@ -28,21 +33,34 @@ void setup() {
 void loop() {
   randNote = random(8);
   randDur = random(8);
+  bars = 0;
+  verseEnd = 0;
   songFlow += randDur;
-  
-  duration = (key == 'a' ? durMaj : durMin) 
-  * (songFlow < 200 ? random(3)+1 : 1);
-  
-  if(songFlow > 350){
-    songFlow = 0;
+
+  for(int i = 0; i < 8; i++){
+    duration = (key == 'a' ? durMaj : durMin)  * 2;
+    verseEnd = i;
+    verseNote[i] = random(8);
+    
+    if(bars + duration == 1,280){
+      verse[i] = duration;
+      break;
+    }else if(bars + duration > 1,280){
+      verse[i] = 1,280 - bars;
+      break;
+    }
+    
+    verse[i] = duration;
+    
   }
 
-  if(key == 'a'){
-    tone(8, major[randNote], duration > durMaj ?  durMin*2 : durMaj);
-  }else{
-    tone(8, minor[randNote], duration > durMin ?  durMin*2 : durMin);
+  for(int i = 0; i < 2; i++){
+    for(int j = 0; j < verseEnd+1; j++){
+      tone(8, major[verseNote[j]], verse[j]/2 > durMaj ?  durMin*2 : durMaj);
+      delay(verse[j]);
+    }
   }
-  delay(duration);
+
 }
 
 void minorSwitch(){
